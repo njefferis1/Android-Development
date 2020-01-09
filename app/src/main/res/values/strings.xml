@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SharingData</string>
+    <string name="titleText">Yeet android</string>
+    <string name="textEditHint">Enter Text Here</string>
+    <string name="textSendButton">Send Data</string>
+    <string name="title_activity_recive">ReciveActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>
