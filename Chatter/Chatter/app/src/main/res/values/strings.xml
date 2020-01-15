@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Chatter</string>
+    <string name="text_view_send_title">Send Chatter</string>
+    <string name="text_view_receive_title">View Chatter</string>
+    <string name="edit_text_hint">Type Chatter Here</string>
+    <string name="button_send_text">Send Chatter</string>
+    <string name="button_view_text">View Chatter</string>
+</resources>

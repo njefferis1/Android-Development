@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_send_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/text_view_send_title"
+        android:textColor="@color/color_send_title"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/edit_text_chatter"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:background="@color/color_edit_text_bg"
+        android:hint="@string/edit_text_hint" />
+
+    <Button
+        android:id="@+id/button_send_chatter"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5px"
+        android:text="@string/button_send_text"
+        android:textSize="16sp"
+        android:textAllCaps="false"/>
+
+    <Button
+        android:id="@+id/button_view_chatter"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5px"
+        android:text="@string/button_view_text"
+        android:textSize="16sp"
+        android:textAllCaps="false"/>
+
+</LinearLayout>
