@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                 String msg = textBox.getText().toString();
                 postToServer(msg);
                 textBox.setText("");
+
+                //should send user to receive page after clicking send
+                Intent intent = new Intent(this, ReceiveActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.button_view_chatter:
@@ -73,9 +77,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
         {
             HttpClient client = new DefaultHttpClient();
             HttpPost form = new HttpPost("http://www.youcode.ca/JitterServlet");
+
             List<NameValuePair> formParameters = new ArrayList<NameValuePair>();
             formParameters.add(new BasicNameValuePair("DATA", msg));
             formParameters.add(new BasicNameValuePair("LOGIN_NAME", "Nicolas Cage"));
+
             UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formParameters);
             form.setEntity(formEntity);
             client.execute(form);

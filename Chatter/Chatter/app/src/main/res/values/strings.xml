@@ -5,4 +5,5 @@
     <string name="edit_text_hint">Type Chatter Here</string>
     <string name="button_send_text">Send Chatter</string>
     <string name="button_view_text">View Chatter</string>
+    <string name="button_home">Home</string>
 </resources>

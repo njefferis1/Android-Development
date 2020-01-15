@@ -13,12 +13,28 @@
         android:textColor="@color/color_receive_title"
         android:layout_gravity="center_horizontal"/>
 
-    <TextView
-        android:layout_width="match_parent"
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/color_edit_text_bg"
+            android:textColor="@color/color_text_view_text"
+            android:id="@+id/text_view_view_chatter"/>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_home"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@color/color_edit_text_bg"
-        android:textColor="@color/color_text_view_text"
-        android:id="@+id/text_view_view_chatter"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5px"
+        android:text="@string/button_home"
+        android:textSize="16sp"
+        android:textAllCaps="false"/>
 
 </LinearLayout>

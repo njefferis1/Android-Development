@@ -2,7 +2,11 @@ package ca.nait.njefferis.chatter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +21,7 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 
-public class ReceiveActivity extends AppCompatActivity {
+public class ReceiveActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,24 @@ public class ReceiveActivity extends AppCompatActivity {
         setContentView(R.layout.activity_receive);
 
         getFromServer();
+
+        Button homeButton = findViewById(R.id.button_home);
+        homeButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        switch(view.getId())
+        {
+            case R.id.button_home:
+            {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                break;
+            }
+        }
+
     }
 
     private void getFromServer()
