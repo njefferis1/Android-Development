@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.nait.njefferis.chatter">
 
+    // must ask permission to use internet
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application

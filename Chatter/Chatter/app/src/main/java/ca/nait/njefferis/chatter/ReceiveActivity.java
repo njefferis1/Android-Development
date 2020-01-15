@@ -39,6 +39,7 @@ public class ReceiveActivity extends AppCompatActivity {
             request.setURI(new URI("http://www.youcode.ca/JSONServlet"));
             HttpResponse response = client.execute(request);
             in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
             String strInput = "";
 
             while((strInput = in.readLine()) != null)
