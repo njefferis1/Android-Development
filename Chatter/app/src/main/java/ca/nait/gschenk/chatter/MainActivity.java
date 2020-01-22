@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,8 +29,39 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements OnClickListener
+public class MainActivity extends AppCompatActivity implements OnClickListener, SharedPreferences.OnSharedPreferenceChangeListener
 {
+
+    SharedPreferences settings;
+    View mainView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        if(Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy ourPolicy =
+                    new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(ourPolicy);
+        }
+
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
+        settings.registerOnSharedPreferenceChangeListener(this);
+
+        mainView = findViewById(R.id.linear_layout_main);
+        String bgColor = settings.getString("preference_main_bg_color", "#009999");
+        mainView.setBackgroundColor(Color.parseColor(bgColor));
+        //^^comment out this line if color is set to invalid value
+
+        Button sendButton = findViewById(R.id.button_send_data);
+        Button viewButton = findViewById(R.id.button_view_chatter);
+
+        sendButton.setOnClickListener(this);
+        viewButton.setOnClickListener(this);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -61,27 +95,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
                 this.startActivity(intent);
                 break;
             }
+            case (R.id.menu_item_preferences):
+            {
+                Intent intent = new Intent(this, SettingsActivity.class);
+                this.startActivity(intent);
+                break;
+            }
         }
         return true;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        if(Build.VERSION.SDK_INT > 9)
-        {
-            StrictMode.ThreadPolicy ourPolicy =
-                    new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(ourPolicy);
-        }
-        Button sendButton = findViewById(R.id.button_send_data);
-        Button viewButton = findViewById(R.id.button_view_chatter);
-
-        sendButton.setOnClickListener(this);
-        viewButton.setOnClickListener(this);
     }
 
     @Override
@@ -111,13 +132,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
 
     private void postToServer(String msg)
     {
+        // key value in preferences xml and alternate value "unknown"
+        String userName = settings.getString("preference_user_name", "unknown");
+
         try
         {
             HttpClient client = new DefaultHttpClient();
             HttpPost form = new HttpPost("http://www.youcode.ca/JitterServlet");
             List<NameValuePair> formParameters = new ArrayList<NameValuePair>();
             formParameters.add(new BasicNameValuePair("DATA", msg));
-            formParameters.add(new BasicNameValuePair("LOGIN_NAME", "Nicolas Cage"));
+            formParameters.add(new BasicNameValuePair("LOGIN_NAME", userName));
             UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formParameters);
             form.setEntity(formEntity);
             client.execute(form);
@@ -126,6 +150,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener
         {
             Toast.makeText(this, "Error: " + e, Toast.LENGTH_LONG).show();
         }
+    }
+
+    // changes background color when preference changed
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
+    {
+        String bgColor = settings.getString("preference_main_bg_color", "#009999");
+        mainView.setBackgroundColor(Color.parseColor(bgColor));
     }
 }
 

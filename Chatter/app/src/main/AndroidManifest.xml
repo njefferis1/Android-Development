@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CustomListActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".CustomListActivity" />
         <activity android:name=".SystemListActivity" />
         <activity android:name=".ReceiveActivity" />
         <activity android:name=".MainActivity">

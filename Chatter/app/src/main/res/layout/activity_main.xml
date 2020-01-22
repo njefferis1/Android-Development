@@ -4,6 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="@color/send_chatter_background_color"
+    android:id="@+id/linear_layout_main"
     >
     <TextView
         android:layout_height="wrap_content"
@@ -35,7 +36,7 @@
         android:layout_marginBottom="5sp"
         android:id="@+id/button_send_data"
         android:layout_gravity="center_horizontal"
-        />
+    />
     <Button
         android:layout_height="wrap_content"
         android:textAllCaps="false"

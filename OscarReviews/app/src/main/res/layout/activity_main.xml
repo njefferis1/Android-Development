@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_oscar_reviews"
+        android:textSize="25sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_select_category"
+        android:textSize="16sp"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10sp"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RadioButton
+            android:id="@+id/selection_film"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_best_film" />
+        <RadioButton
+            android:id="@+id/selection_actor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_best_actor"/>
+        <RadioButton
+            android:id="@+id/selection_actress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_best_actress"/>
+        <RadioButton
+            android:id="@+id/selection_editing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_best_editing"/>
+        <RadioButton
+            android:id="@+id/selection_effects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_best_effects"/>
+    </RadioGroup>
+
+    //nominee text box
+    <EditText
+        android:id="@+id/nominee_textbox"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="5sp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:hint="@string/hint_oscar_nominee"
+        android:background="@color/edit_text_bg"/>
+
+    //review textbox
+    <EditText
+        android:id="@+id/review_textbox"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="5sp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:hint="@string/hint_oscar_review"
+        android:background="@color/edit_text_bg"/>
+
+    //post button
+    <Button
+        android:id="@+id/button_send_review"
+        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:textAllCaps="false"
+        android:text="@string/send_review_button_text"
+        android:textSize="15sp"
+        android:layout_marginLeft="5sp"
+        android:layout_marginTop="5sp"
+        android:layout_marginRight="5sp"
+        android:layout_marginBottom="5sp"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>
