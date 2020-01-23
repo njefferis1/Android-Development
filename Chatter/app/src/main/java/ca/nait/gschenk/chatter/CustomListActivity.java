@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,9 +20,12 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CustomListActivity extends ListActivity
+public class CustomListActivity extends AppCompatActivity
 {
     ArrayList<HashMap<String, String>> chatter = new ArrayList<HashMap<String, String>>();
+    public static final String SENDER = "sender";
+    public static final String TEXT = "text";
+    public static final String DATE = "myDate";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,14 +38,16 @@ public class CustomListActivity extends ListActivity
 
     private void displayChatter()
     {
-        String[] keys = new String[]{"sender", "text", "theDate"};
+        String[] keys = new String[]{SENDER, TEXT, DATE};
         int[] ids = new int[]{R.id.custom_row_text_view_sender, R.id.custom_row_text_view_message, R.id.custom_row_text_view_date};
 
         SimpleAdapter adapter = new SimpleAdapter(this, chatter, R.layout.list_view_custom_row, keys, ids);
 
         populateList();
 
-        setListAdapter(adapter);
+        ListView lv = findViewById(R.id.list_view_custom);
+
+        lv.setAdapter(adapter);
     }
 
     private void populateList()
@@ -62,13 +68,13 @@ public class CustomListActivity extends ListActivity
             {
                 HashMap<String, String> tempMap = new HashMap<String, String>();
 
-                tempMap.put("sender", line);
+                tempMap.put(SENDER, line);
 
                 line = in.readLine();
-                tempMap.put("text", line);
+                tempMap.put(TEXT, line);
 
                 line = in.readLine();
-                tempMap.put("theDate", line);
+                tempMap.put(DATE, line);
 
                 chatter.add(tempMap);
             }

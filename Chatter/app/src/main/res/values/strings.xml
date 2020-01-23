@@ -10,5 +10,5 @@
     <string name="preference_user_password_title">Password</string>
     <string name="preference_user_password_summary">Use this to set or change your password</string>
     <string name="preference_main_bg_color_title">Main Background Color</string>
-    <string name="preference_main_bg_color_summary">Set the main background color(#RRGGBB)</string>
+    <string name="preference_main_bg_color_summary">Set the main background color</string>
 </resources>
