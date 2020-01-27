@@ -26,6 +26,8 @@ public class CustomListActivity extends AppCompatActivity
     public static final String SENDER = "sender";
     public static final String TEXT = "text";
     public static final String DATE = "myDate";
+    //to use constants in other classes use CustomListActivity.CONSTANT_NAME
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

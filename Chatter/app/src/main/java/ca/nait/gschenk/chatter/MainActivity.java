@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private void postToServer(String msg)
     {
         // key value in preferences xml and alternate value "unknown"
-        String userName = settings.getString("preference_user_name", "unknown");
+        String userName = settings.getString(getResources().getString(R.string.preference_key_user_name), "unknown");
 
         try
         {

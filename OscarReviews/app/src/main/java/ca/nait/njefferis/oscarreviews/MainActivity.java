@@ -13,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -125,18 +127,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void postToServer(String category, String nominee, String review)
     {
-        String loginName = settings.getString("@String/preference_user_login_name_key", "unknown");
+        String loginName = settings.getString(getResources().getString(R.string.preference_user_login_name_key), "unknown");
+        String password = settings.getString(getResources().getString(R.string.preference_user_password_key), "incorrectPassword");
 
         try
         {
             HttpClient client = new DefaultHttpClient();
-            HttpPost form = new HttpPost("http://www.youcode.ca/somethingServlet");
+            HttpPost form = new HttpPost("http://www.youcode.ca/Lab01Servlet");
             List<NameValuePair> formParameters = new ArrayList<NameValuePair>();
             formParameters.add(new BasicNameValuePair("CATEGORY", category));
-            formParameters.add(new BasicNameValuePair("NOMINEE", nominee));
             formParameters.add(new BasicNameValuePair("REVIEW", review));
             formParameters.add(new BasicNameValuePair("LOGIN_NAME", loginName));
-            //other things aswell
+            formParameters.add(new BasicNameValuePair("NOMINEE", nominee));
+            formParameters.add(new BasicNameValuePair("CATEGORY", category));
+            formParameters.add(new BasicNameValuePair("PASSWORD", password));
             UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formParameters);
             form.setEntity(formEntity);
             client.execute(form);
@@ -156,6 +160,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v)
     {
+        switch (v.getId())
+        {
+            case R.id.button_send_review:
+            {
+                EditText nomineeTB = findViewById(R.id.nominee_textbox);
+                EditText reviewTB = findViewById(R.id.review_textbox);
+                RadioGroup radioG = findViewById(R.id.category_radio_button);
+                //String radio = onRadioButtonClicked();
+                String nominee = nomineeTB.getText().toString();
+                String review = reviewTB.getText().toString();
+                //String category = onRadioButtonClicked();
 
+                postToServer(category, nominee, review);
+                nomineeTB.setText("");
+                reviewTB.setText("");
+
+                break;
+            }
+        }
     }
 }
