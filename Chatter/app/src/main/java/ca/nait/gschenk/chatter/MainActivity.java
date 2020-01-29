@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,7 +32,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener, SharedPreferences.OnSharedPreferenceChangeListener
 {
-
+    private static final String TAG = "MainActivity";
     SharedPreferences settings;
     View mainView;
 
@@ -101,6 +102,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 this.startActivity(intent);
                 break;
             }
+            case (R.id.menu_item_view_layout_options):
+            {
+                Intent intent = new Intent(this, LayoutOptionsActivity.class);
+                this.startActivity(intent);
+                break;
+            }
         }
         return true;
     }
@@ -134,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     {
         // key value in preferences xml and alternate value "unknown"
         String userName = settings.getString(getResources().getString(R.string.preference_key_user_name), "unknown");
+
+        Log.d(TAG, "userName = " + userName);
 
         try
         {

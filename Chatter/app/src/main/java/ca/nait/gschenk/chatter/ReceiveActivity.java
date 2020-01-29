@@ -3,6 +3,7 @@ package ca.nait.gschenk.chatter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import java.net.URI;
 
 public class ReceiveActivity extends AppCompatActivity
 {
+    private static final String TAG = "ReceiveActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,11 +41,15 @@ public class ReceiveActivity extends AppCompatActivity
             in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
 
             String line = "";
-
+            Log.d(TAG, "got here 1");
             while((line = in.readLine()) != null)
             {
                 textbox.append(line + "\n");
+                Log.d(TAG, "*** " + line + " ***");
             }
+
+            Log.d(TAG, "got here 2");
+
             in.close();
         }
         catch(Exception e)

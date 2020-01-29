@@ -4,4 +4,5 @@
     <item android:id="@+id/menu_item_view_system_list" android:title="View System List"/>
     <item android:id="@+id/menu_item_view_custom_list" android:title="View Custom List"/>
     <item android:id="@+id/menu_item_preferences" android:title="Preferences"/>
+    <item android:id="@+id/menu_item_view_layout_options" android:title="View Layout Options"/>
 </menu>
