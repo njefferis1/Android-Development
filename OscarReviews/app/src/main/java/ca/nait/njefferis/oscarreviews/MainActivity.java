@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -30,6 +31,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SharedPreferences.OnSharedPreferenceChangeListener
 {
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+    private Button btnDisplay;
 
     SharedPreferences settings;
     String category = "unknown";
@@ -47,8 +51,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             StrictMode.setThreadPolicy(ourPolicy);
         }
 
+        addListenerOnButton();
+
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         settings.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    private void addListenerOnButton()
+    {
+        radioGroup = (RadioGroup) findViewById(R.id.category_radio_group);
+        btnDisplay = (Button) findViewById(R.id.button_send_review);
+
+        btnDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                radioButton = (RadioButton)findViewById(selectedId);
+
+
+            }
+        });
     }
 
     @Override
@@ -166,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 EditText nomineeTB = findViewById(R.id.nominee_textbox);
                 EditText reviewTB = findViewById(R.id.review_textbox);
-                RadioGroup radioG = findViewById(R.id.category_radio_button);
+                RadioGroup radioG = findViewById(R.id.category_radio_group);
                 //String radio = onRadioButtonClicked();
                 String nominee = nomineeTB.getText().toString();
                 String review = reviewTB.getText().toString();

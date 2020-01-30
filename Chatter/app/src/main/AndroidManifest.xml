@@ -11,12 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_egg_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LayoutOptionsActivity"></activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".LayoutOptionsActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".CustomListActivity" />
         <activity android:name=".SystemListActivity" />
         <activity android:name=".ReceiveActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ColorSpinnerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

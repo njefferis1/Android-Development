@@ -108,6 +108,12 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 this.startActivity(intent);
                 break;
             }
+            case (R.id.menu_item_change_color):
+            {
+                Intent intent = new Intent(this, ColorSpinnerActivity.class);
+                this.startActivity(intent);
+                break;
+            }
         }
         return true;
     }
