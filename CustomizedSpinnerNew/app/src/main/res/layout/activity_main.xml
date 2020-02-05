@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <Spinner
+        android:id="@+id/spinner_chatter"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:dropDownWidth="300dp"
+        android:prompt="@string/spinner_prompt"
+        android:layout_margin="10dp"
+        />
+    <EditText
+        android:id="@+id/et_sender"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@color/edit_text_bg_color"
+        android:textColor="@color/edit_text_text_color"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
+        />
+    <EditText
+        android:id="@+id/et_date"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@color/edit_text_bg_color"
+        android:textColor="@color/edit_text_text_color"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_margin="10dp"/>
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@color/edit_text_bg_color"
+        android:textColor="@color/edit_text_text_color"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_margin="10dp"/>
+
+
+</LinearLayout>

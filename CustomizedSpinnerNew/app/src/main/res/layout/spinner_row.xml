@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/edit_text_text_color">
+
+    <TextView
+        android:id="@+id/textview_chat_sender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/edit_text_bg_color"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textColor="@color/edit_text_text_color"
+        android:textSize="18sp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/textview_chat_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/edit_text_bg_color"
+        android:textColor="@color/edit_text_text_color"
+        android:textSize="18sp"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/textview_chat_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textview_chat_sender"
+        android:background="@color/edit_text_bg_color"
+        android:ellipsize="end"
+        android:textSize="18sp"
+        android:textColor="@color/edit_text_text_color"
+        android:layout_marginBottom="2dp">
+    </TextView>
+
+</RelativeLayout>

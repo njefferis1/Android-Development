@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -31,12 +32,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SharedPreferences.OnSharedPreferenceChangeListener
 {
-    private RadioGroup radioGroup;
-    private RadioButton radioButton;
-    private Button btnDisplay;
-
     SharedPreferences settings;
-    String category = "unknown";
+    View mainView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,28 +48,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             StrictMode.setThreadPolicy(ourPolicy);
         }
 
-        addListenerOnButton();
-
         settings = PreferenceManager.getDefaultSharedPreferences(this);
         settings.registerOnSharedPreferenceChangeListener(this);
-    }
 
-    private void addListenerOnButton()
-    {
-        radioGroup = (RadioGroup) findViewById(R.id.category_radio_group);
-        btnDisplay = (Button) findViewById(R.id.button_send_review);
+        mainView = findViewById(R.id.linear_layout_main);
+        String bgColor = settings.getString("preference_main_bg_color", "#000099");
+        mainView.setBackgroundColor(Color.parseColor(bgColor));
 
-        btnDisplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                int selectedId = radioGroup.getCheckedRadioButtonId();
+        Button sendButton = findViewById(R.id.button_send_review);
 
-                radioButton = (RadioButton)findViewById(selectedId);
-
-
-            }
-        });
+        sendButton.setOnClickListener(this);
     }
 
     @Override
@@ -95,58 +80,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 this.startActivity(intent);
                 break;
             }
+            case R.id.menu_view_reviews:
+            {
+                Intent intent = new Intent(this, ViewReviewActivity.class);
+                this.startActivity(intent);
+                break;
+            }
         }
         return true;
-    }
-
-    public void onRadioButtonClicked(View view)
-    {
-        boolean checked = ((RadioButton) view).isChecked();
-
-        switch (view.getId())
-        {
-            case(R.id.selection_film):
-            {
-                if(checked)
-                {
-                    category = "film";
-                    break;
-                }
-            }
-            case(R.id.selection_actor):
-            {
-                if(checked)
-                {
-                    category = "actor";
-                    break;
-                }
-            }
-            case(R.id.selection_actress):
-            {
-                if(checked)
-                {
-                    category = "actress";
-                    break;
-                }
-            }
-            case(R.id.selection_editing):
-            {
-                if(checked)
-                {
-                    category = "editing";
-                    break;
-                }
-            }
-            case(R.id.selection_effects):
-            {
-                if(checked)
-                {
-                    category = "effects";
-                    break;
-                }
-            }
-
-        }
     }
 
     private void postToServer(String category, String nominee, String review)
@@ -159,9 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             HttpClient client = new DefaultHttpClient();
             HttpPost form = new HttpPost("http://www.youcode.ca/Lab01Servlet");
             List<NameValuePair> formParameters = new ArrayList<NameValuePair>();
-            formParameters.add(new BasicNameValuePair("CATEGORY", category));
             formParameters.add(new BasicNameValuePair("REVIEW", review));
-            formParameters.add(new BasicNameValuePair("LOGIN_NAME", loginName));
+            formParameters.add(new BasicNameValuePair("REVIEWER", loginName));
             formParameters.add(new BasicNameValuePair("NOMINEE", nominee));
             formParameters.add(new BasicNameValuePair("CATEGORY", category));
             formParameters.add(new BasicNameValuePair("PASSWORD", password));
@@ -178,7 +118,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
     {
-
+        String bgColor = settings.getString("preference_main_bg_color", "#000099");
+        mainView.setBackgroundColor(Color.parseColor(bgColor));
     }
 
     @Override
@@ -191,10 +132,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 EditText nomineeTB = findViewById(R.id.nominee_textbox);
                 EditText reviewTB = findViewById(R.id.review_textbox);
                 RadioGroup radioG = findViewById(R.id.category_radio_group);
-                //String radio = onRadioButtonClicked();
+                int radioButtonId = radioG.getCheckedRadioButtonId();
+                RadioButton radioB = findViewById(radioButtonId);
+                String category = (String) radioB.getTag();
                 String nominee = nomineeTB.getText().toString();
                 String review = reviewTB.getText().toString();
-                //String category = onRadioButtonClicked();
 
                 postToServer(category, nominee, review);
                 nomineeTB.setText("");

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Customized Spinner</string>
+    <string name="spinner_prompt">Select...</string>
+</resources>
