@@ -9,7 +9,7 @@ import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class CursorActivity extends AppCompatActivity
+public class CursorActivity extends BaseActivity
 {
     static final String TAG = "CursorActivity";
     DBManager dbManager;

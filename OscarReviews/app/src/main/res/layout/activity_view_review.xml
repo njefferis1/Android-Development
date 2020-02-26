@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_select_category"
+        android:textSize="16sp"
+        android:layout_gravity="left"
+        android:layout_marginLeft="10sp"/>
+
+    <RadioGroup
+        android:id="@+id/category_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RadioButton
+            android:id="@+id/selection_film"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_best_film"
+            android:tag="film"/>
+        <RadioButton
+            android:id="@+id/selection_actor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_best_actor"
+            android:tag="actor"/>
+        <RadioButton
+            android:id="@+id/selection_actress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_best_actress"
+            android:tag="actress"/>
+        <RadioButton
+            android:id="@+id/selection_editing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_best_editing"
+            android:tag="editing"/>
+        <RadioButton
+            android:id="@+id/selection_effects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_best_effects"
+            android:tag="effects"/>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/button_view_review"
+        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:textAllCaps="false"
+        android:text="@string/view_review_button_text"
+        android:textSize="15sp"
+        android:layout_marginLeft="5sp"
+        android:layout_marginTop="5sp"
+        android:layout_marginRight="5sp"
+        android:layout_marginBottom="5sp"
+        android:layout_gravity="center_horizontal" />
+
+    <ListView
+        android:id="@+id/list_view_custom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:background="@color/list_view_bg"
+        android:drawSelectorOnTop="false"
+        android:divider="@color/list_view_divider"
+        android:dividerHeight="2dp"
+        />
+
+</LinearLayout>

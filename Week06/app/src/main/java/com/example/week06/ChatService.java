@@ -23,7 +23,7 @@ public class ChatService extends Service
 {
     static final String TAG = "ChatService";
     static final int DELAY = 120000;
-    private boolean bRun = false;
+    public static boolean bRun = false;
     private ChatThread theThread = null;
 
     DBManager dbManager;

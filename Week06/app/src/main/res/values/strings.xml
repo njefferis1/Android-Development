@@ -6,9 +6,10 @@
     <string name="text_send_chat_hint">Type chat here</string>
     <string name="menu_item_view_preferences">Preferences</string>
     <string name="menu_item_view_cursor">View Cursor</string>
+    <string name="menu_item_home">Home</string>
 
-    <string name="menu_item_start_service">Start Service</string>
-    <string name="menu_item_stop_service">Stop Service</string>
+    <string name="menu_item_start_service">Go Online</string>
+    <string name="menu_item_stop_service">Go Offline</string>
     <string name="menu_item_display_chatter">Display Chatter</string>
     <string name="preference_key_login_name">user_login_name</string>
     <string name="preference_title_login_name">Alias</string>
