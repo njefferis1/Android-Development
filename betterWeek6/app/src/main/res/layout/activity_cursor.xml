@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_main_bg"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/list_view_cursor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:divider="@color/color_main_bg"
+        android:dividerHeight="1dp"
+        android:drawSelectorOnTop="false"
+        android:background="@color/color_text_view_bg"></ListView>
+
+</LinearLayout>
