@@ -77,6 +77,12 @@ public class BaseActivity extends AppCompatActivity
                 Log.d(TAG, "menu item home");
                 break;
             }
+            case R.id.menu_item_new_activity:
+            {
+                startActivity(new Intent(this, NewActivity.class) );
+                Log.d(TAG, "menu item new");
+                break;
+            }
             case R.id.menu_item_cursor_view:
             {
                 startActivity(new Intent(this, CursorActivity.class) );

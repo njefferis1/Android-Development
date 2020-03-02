@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CursorActivity"></activity>
+        <activity android:name=".NewActivity"></activity>
+        <activity android:name=".CursorActivity" />
         <activity android:name=".DisplayActivity" />
         <activity android:name=".PrefsActivity" />
 

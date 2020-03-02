@@ -6,6 +6,7 @@
     <string name="text_send_chat_hint">Type chat here</string>
     <string name="menu_item_view_preferences">Preferences</string>
     <string name="menu_item_home">Home</string>
+    <string name="menu_item_new_activity">New Activity</string>
     <string name="menu_item_start_service">Go Online</string>
     <string name="menu_item_stop_service">Go Offline</string>
     <string name="menu_item_display_chatter">Display Chatter</string>

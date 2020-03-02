@@ -10,6 +10,9 @@
         android:id="@+id/menu_item_cursor_view"
         android:title="@string/menu_item_cursor_view" />
     <item
+        android:id="@+id/menu_item_new_activity"
+        android:title="@string/menu_item_new_activity" />
+    <item
         android:id="@+id/menu_item_toggle_service"
         android:title="@string/menu_item_start_service" />
     <item
