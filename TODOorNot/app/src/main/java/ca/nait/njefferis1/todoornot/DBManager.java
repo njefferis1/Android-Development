@@ -14,9 +14,10 @@ public class DBManager extends SQLiteOpenHelper
     static final int DB_VERSION = 1;
     static final String TITLE_TABLE_NAME = "ListTitles";
     static final String C_TITLE_ID = BaseColumns._ID;
+    static final String C_TITLE_DESCRIPTION = "title_description";
     static final String ITEM_TABLE_NAME = "ListItems";
     static final String C_ITEM_ID = BaseColumns._ID;
-    static final String C_DESCRIPTION = "item_description";
+    static final String C_ITEM_DESCRIPTION = "item_description";
     static final String C_CREATED_DATE = "created_date";
     static final boolean C_FLAG = false;
 
@@ -25,10 +26,10 @@ public class DBManager extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase database)
     {
-        String sql = "create table " + TITLE_TABLE_NAME + " (" + C_TITLE_ID + " int primary key, " + " text)";
+        String sql = "create table " + TITLE_TABLE_NAME + " (" + C_TITLE_ID + " int primary key, " + " text, + C_TITLE_DESCRIPTION + text)";
         Log.d(TAG, "sql = " + sql);
 
-        sql = "create table " + ITEM_TABLE_NAME + " (" + C_ITEM_ID + " int primary key, " + C_DESCRIPTION + " text, " + C_CREATED_DATE + " text, " + C_FLAG + " text)";
+        sql = "create table " + ITEM_TABLE_NAME + " (" + C_ITEM_ID + " int primary key, " + C_ITEM_DESCRIPTION + " text, " + C_CREATED_DATE + " text, " + C_FLAG + " text)";
         Log.d(TAG, "sql = " + sql);
 
         database.execSQL(sql);
