@@ -16,7 +16,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dbManager = new DBManager(this);
+
+        ArrayList<String> spinnerArray = new ArrayList<String>();
+        populateArray(spinnerArray);
 
         Button saveListNameButton = findViewById(R.id.button_save_list_title);
 
@@ -71,31 +78,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d(TAG, "duplicate record");
                 }
 
-                //populate spinner with value
-                Spinner listTitleSpinner = findViewById(R.id.spinner_list_title);
-
-                List<String> spinnerArray = new ArrayList<String>();
-                spinnerArray.clear();
-                //wrap in while loop
-                cursor = database.query(DBManager.TITLE_TABLE_NAME,
-                        null, null, null, null, null, DBManager.C_TITLE_ID + " DESC");
-                startManagingCursor(cursor);
-                String title;
-                while(cursor.moveToNext())
-                {
-                    title = cursor.getString(cursor.getColumnIndex(DBManager.C_TITLE_DESCRIPTION));
-                    spinnerArray.add(title);
-                }
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                        this, R.layout.title_spinner_row, spinnerArray);
-
-                adapter.setDropDownViewResource(R.layout.title_spinner_row);
-                listTitleSpinner.setAdapter(adapter);
-
+                ArrayList<String> spinnerArray = new ArrayList<String>();
+                populateArray(spinnerArray);
                 listTitleTB.setText("");
                 database.close();
                 break;
             }
         }
     }
+
+    private void populateArray(ArrayList array)
+    {
+        BufferedReader in = null;
+
+        try
+        {
+            Spinner listTitleSpinner = findViewById(R.id.spinner_list_title);
+
+            cursor = database.query(DBManager.TITLE_TABLE_NAME,
+                    null, null, null, null, null, DBManager.C_TITLE_ID + " DESC");
+            startManagingCursor(cursor);
+            String title;
+            while(cursor.moveToNext())
+            {
+                title = cursor.getString(cursor.getColumnIndex(DBManager.C_TITLE_DESCRIPTION));
+                array.add(title);
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                    this, android.R.layout.simple_spinner_item, array);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            //listTitleSpinner.setAdapter(adapter);
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(this, "Error: " + e, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

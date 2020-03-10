@@ -11,7 +11,7 @@ public class DBManager extends SQLiteOpenHelper
 
     static final String TAG = "DBManager";
     static final String DB_NAME = "todo.db";
-    static final int DB_VERSION = 1;
+    static final int DB_VERSION = 2;
     static final String TITLE_TABLE_NAME = "ListTitles";
     static final String C_TITLE_ID = BaseColumns._ID;
     static final String C_TITLE_DESCRIPTION = "title_description";
