@@ -26,13 +26,13 @@ public class DBManager extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase database)
     {
-        String sql = "create table " + TITLE_TABLE_NAME + " (" + C_TITLE_ID + " int primary key, " + " text, + C_TITLE_DESCRIPTION + text)";
-        Log.d(TAG, "sql = " + sql);
+        String sql1 = "create table " + TITLE_TABLE_NAME + " (" + C_TITLE_ID + " int primary key, " + C_TITLE_DESCRIPTION + " text)";
+        Log.d(TAG, "sql = " + sql1);
+        database.execSQL(sql1);
 
-        sql = "create table " + ITEM_TABLE_NAME + " (" + C_ITEM_ID + " int primary key, " + C_ITEM_DESCRIPTION + " text, " + C_CREATED_DATE + " text, " + C_FLAG + " text)";
-        Log.d(TAG, "sql = " + sql);
-
-        database.execSQL(sql);
+        String sql2 = " create table " + ITEM_TABLE_NAME + " (" + C_ITEM_ID + " int primary key, " + C_TITLE_ID + " text, " + C_ITEM_DESCRIPTION + " text, " + C_CREATED_DATE + " text, " + C_FLAG + " text)";
+        Log.d(TAG, "sql = " + sql2);
+        database.execSQL(sql2);
     }
 
     @Override
