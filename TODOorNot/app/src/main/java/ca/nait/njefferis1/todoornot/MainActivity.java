@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ArrayList<String> spinnerArray = new ArrayList<String>();
         populateArray(spinnerArray);
+        Spinner spinner = findViewById(R.id.spinner_list_title);
+        spinner.setOnItemSelectedListener(new SpinnerListener());
+
 
         Button saveListNameButton = findViewById(R.id.button_save_list_title);
 
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void populateArray(ArrayList array)
     {
-        BufferedReader in = null;
+        //ArrayList<String> spinnerArray = new ArrayList<String>();
 
         try
         {
@@ -108,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     this, android.R.layout.simple_spinner_item, array);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            //listTitleSpinner.setAdapter(adapter);
+            listTitleSpinner.setAdapter(adapter);
         }
         catch(Exception e)
         {
