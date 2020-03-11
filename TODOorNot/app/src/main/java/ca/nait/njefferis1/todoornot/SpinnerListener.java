@@ -1,5 +1,7 @@
 package ca.nait.njefferis1.todoornot;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,10 +21,14 @@ public class SpinnerListener extends AppCompatActivity implements AdapterView.On
     public static final String ITEM_ID = "ItemId";
     public static final String ITEM = "Item";
 
+    DBManager dbManager;
+    SQLiteDatabase database;
+    Cursor cursor;
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         //populate listView with all the list items associated with the selected List Title
-        String[] keys = new String[]{ITEM_ID, ITEM};
+       /* String[] keys = new String[]{ITEM_ID, ITEM};
         int[] ids = new int[]{R.id.custom_row_text_view_item_id, R.id.custom_row_text_view_item};
 
         SimpleAdapter adapter = new SimpleAdapter(this, todoItem, R.layout.custom_list_view_row, keys, ids);
@@ -31,15 +37,25 @@ public class SpinnerListener extends AppCompatActivity implements AdapterView.On
 
         ListView lv = findViewById(R.id.list_view_items);
 
-        lv.setAdapter(adapter);
+        lv.setAdapter(adapter);*/
+
+        String label = parent.getItemAtPosition(position).toString();
+
+        // Showing selected spinner item
+        Toast.makeText(parent.getContext(), "You selected: " + label,
+                Toast.LENGTH_LONG).show();
     }
 
     private void populateList()
     {
+
         try
         {
-            Spinner listTitleSpinner = findViewById(R.id.spinner_list_title);
+            /*Spinner listTitleSpinner = findViewById(R.id.spinner_list_title);
+            ArrayList<String> array = new ArrayList<String>();
 
+            database = dbManager.getReadableDatabase();
+            String whereClause = DBManager.C_TITLE_ID + " = " + ()
             cursor = database.query(DBManager.TITLE_TABLE_NAME,
                     null, null, null, null, null, DBManager.C_TITLE_ID + " DESC");
             startManagingCursor(cursor);
@@ -53,7 +69,7 @@ public class SpinnerListener extends AppCompatActivity implements AdapterView.On
                     this, android.R.layout.simple_spinner_item, array);
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            listTitleSpinner.setAdapter(adapter);
+            listTitleSpinner.setAdapter(adapter);*/
         }
         catch(Exception e)
         {
