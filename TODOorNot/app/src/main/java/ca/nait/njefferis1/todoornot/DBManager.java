@@ -81,4 +81,29 @@ public class DBManager extends SQLiteOpenHelper
 
         return titles;
     }
+
+    public List<String> getItems(String title)
+    {
+        List<String> items = new ArrayList<String>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String whereClause1 = DBManager.C_TITLE_DESCRIPTION + "=" + (title);
+        Cursor titleID = db.query(DBManager.TITLE_TABLE_NAME, null, whereClause1, null, null, null, null);
+
+        String whereClause2 = DBManager.C_TITLE_ID + "=" + (titleID);
+        Cursor cursor = db.query(DBManager.ITEM_TABLE_NAME, null, whereClause2, null, null, null, null);
+
+        if(cursor.moveToFirst())
+        {
+            do
+            {
+                items.add(cursor.getString(1));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+
+        return items;
+    }
 }

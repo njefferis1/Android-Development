@@ -8,4 +8,19 @@
     <string name="button_update">Update</string>
     <string name="button_delete">Delete</string>
     <string name="button_archive">Archive</string>
+
+    <string name="preference_user_login_name_key">preference_user_login_name</string>
+    <string name="preference_user_login_name_title">Login Name</string>
+    <string name="preference_user_login_name_summary">Use this to set or change your screen name</string>
+    <string name="preference_user_password_key">preference_user_password</string>
+    <string name="preference_user_password_title">Password</string>
+    <string name="preference_user_password_summary">Use this to set or change your password</string>
+    <string name="preference_main_color_key">preference_main_color</string>
+    <string name="preference_main_color_title">Main Color</string>
+    <string name="preference_main_color_summary">Set the main color</string>
+    <string name="preference_secondary_color_key">preference_secondary_color</string>
+    <string name="preference_secondary_color_title">Secondary Color</string>
+    <string name="preference_secondary_color_summary">Set the secondary color</string>
+    <string name="preference_font_size_key">preference_font_size</string>
+    <string name="preference_font_size_title">Font Size</string>
 </resources>

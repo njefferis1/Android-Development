@@ -81,30 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(getApplicationContext(), "Please enter List Title",
                             Toast.LENGTH_SHORT).show();
                 }
-
-               /* database = dbManager.getWritableDatabase();
-                ContentValues values = new ContentValues();
-
-                values.clear();
-                // find way to auto increment primary key values
-                values.put(DBManager.C_TITLE_ID, n);
-                n++;
-                values.put(DBManager.C_TITLE_DESCRIPTION, listTitle);
-
-                try
-                {
-                    database.insertOrThrow(DBManager.TITLE_TABLE_NAME, null, values);
-                    Log.d(TAG, "record added to database");
-                }
-                catch (SQLException sqle)
-                {
-                    Log.d(TAG, "duplicate record");
-                }
-
-                ArrayList<String> spinnerArray = new ArrayList<String>();
-                populateArray(spinnerArray);
-                listTitleTB.setText("");
-                database.close();*/
                 break;
             }
         }
@@ -123,23 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, titles);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
-
-            /*Spinner listTitleSpinner = findViewById(R.id.spinner_list_title);
-
-            cursor = database.query(DBManager.TITLE_TABLE_NAME,
-                    null, null, null, null, null, DBManager.C_TITLE_ID + " DESC");
-            startManagingCursor(cursor);
-            String title;
-            while(cursor.moveToNext())
-            {
-                title = cursor.getString(cursor.getColumnIndex(DBManager.C_TITLE_DESCRIPTION));
-                array.add(title);
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                    this, android.R.layout.simple_spinner_item, array);
-
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            listTitleSpinner.setAdapter(adapter);*/
         }
         catch(Exception e)
         {

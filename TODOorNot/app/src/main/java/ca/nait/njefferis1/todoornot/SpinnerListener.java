@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SpinnerListener extends AppCompatActivity implements AdapterView.OnItemSelectedListener
 {
@@ -26,55 +27,12 @@ public class SpinnerListener extends AppCompatActivity implements AdapterView.On
     Cursor cursor;
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //populate listView with all the list items associated with the selected List Title
-       /* String[] keys = new String[]{ITEM_ID, ITEM};
-        int[] ids = new int[]{R.id.custom_row_text_view_item_id, R.id.custom_row_text_view_item};
-
-        SimpleAdapter adapter = new SimpleAdapter(this, todoItem, R.layout.custom_list_view_row, keys, ids);
-
-        populateList();
-
-        ListView lv = findViewById(R.id.list_view_items);
-
-        lv.setAdapter(adapter);*/
-
-        String label = parent.getItemAtPosition(position).toString();
-
-        // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "You selected: " + label,
-                Toast.LENGTH_LONG).show();
-    }
-
-    private void populateList()
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
+        //does this after being selected
+        DBManager db = new DBManager(getApplicationContext());
 
-        try
-        {
-            /*Spinner listTitleSpinner = findViewById(R.id.spinner_list_title);
-            ArrayList<String> array = new ArrayList<String>();
-
-            database = dbManager.getReadableDatabase();
-            String whereClause = DBManager.C_TITLE_ID + " = " + ()
-            cursor = database.query(DBManager.TITLE_TABLE_NAME,
-                    null, null, null, null, null, DBManager.C_TITLE_ID + " DESC");
-            startManagingCursor(cursor);
-            String title;
-            while(cursor.moveToNext())
-            {
-                title = cursor.getString(cursor.getColumnIndex(DBManager.C_TITLE_DESCRIPTION));
-                array.add(title);
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                    this, android.R.layout.simple_spinner_item, array);
-
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            listTitleSpinner.setAdapter(adapter);*/
-        }
-        catch(Exception e)
-        {
-            Toast.makeText(this, "Error: " + e, Toast.LENGTH_SHORT).show();
-        }
+        List<String> titles = db.getItems(parent.getItemAtPosition(position).toString());
     }
 
     @Override
