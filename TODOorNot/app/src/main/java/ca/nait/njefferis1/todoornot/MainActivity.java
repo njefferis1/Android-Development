@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
@@ -79,6 +80,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else
                 {
                     Toast.makeText(getApplicationContext(), "Please enter List Title",
+                            Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+            case R.id.button_save_list_item:
+            {
+                EditText listItemTB = findViewById(R.id.et_list_title);
+                String listItem = listItemTB.getText().toString();
+                Spinner listTitle = findViewById(R.id.spinner_list_title);
+                String title = listTitle.getSelectedItem().toString();
+                String now = new Date().toString();
+
+                if(listItem.trim().length() > 0)
+                {
+                    DBManager db = new DBManager(getApplicationContext());
+                    db.insertListItem(listItem, title, now, "false");
+                    listItemTB.setText("");
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(listItemTB.getWindowToken(), 0);
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Please enter List Item",
                             Toast.LENGTH_SHORT).show();
                 }
                 break;

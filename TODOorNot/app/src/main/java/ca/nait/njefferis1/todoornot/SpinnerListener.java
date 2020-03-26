@@ -33,6 +33,60 @@ public class SpinnerListener extends AppCompatActivity implements AdapterView.On
         DBManager db = new DBManager(getApplicationContext());
 
         List<String> titles = db.getItems(parent.getItemAtPosition(position).toString());
+        if(!titles.isEmpty())
+        {
+            //populate list view here
+            String[] keys = new String[]{ITEM_ID, ITEM};
+            int[] ids = new int[]{R.id.custom_row_text_view_item_id, R.id.custom_row_text_view_item};
+
+            SimpleAdapter adapter = new SimpleAdapter(this, todoItem, R.layout.custom_list_view_row, keys, ids);
+
+            //get a list of all items associated with selected title
+            populateList(parent.getItemAtPosition(position).toString());
+
+            ListView lv = findViewById(R.id.list_view_items);
+
+            lv.setAdapter(adapter);
+        }
+        else
+        {
+            //no list items yet
+        }
+    }
+
+    private void populateList(String selection)
+    {
+        try
+        {
+            DBManager db = new DBManager(getApplicationContext());
+            //List<String> items = new ArrayList<String>();
+
+            database = db.getReadableDatabase();
+
+            String titleID = db.getTitleID(selection);
+
+            String whereClause = DBManager.C_TITLE_ID + "=" + (titleID);
+            Cursor cursor = database.query(DBManager.ITEM_TABLE_NAME, null, whereClause, null, null, null, null);
+
+            if(cursor.moveToFirst())
+            {
+                do
+                {
+                    HashMap<String, String> tempMap = new HashMap<String, String>();
+
+                    tempMap.put(ITEM_ID, cursor.getString(0));
+                    tempMap.put(ITEM, cursor.getString(2));
+
+                    todoItem.add(tempMap);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            database.close();
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, "Error: " + e, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
