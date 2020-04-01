@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +17,14 @@ public class DBManager extends SQLiteOpenHelper
 
     static final String TAG = "DBManager";
     static final String DB_NAME = "todo.db";
-    static final int DB_VERSION = 3;
+    static final int DB_VERSION = 4;
+
     static final String TITLE_TABLE_NAME = "ListTitles";
     static final String C_TITLE_ID = BaseColumns._ID;
     static final String C_TITLE_DESCRIPTION = "title_description";
+
     static final String ITEM_TABLE_NAME = "ListItems";
-    static final String C_ITEM_ID = BaseColumns._ID;
+    static final String C_ITEM_ID = "group_id";
     static final String C_ITEM_DESCRIPTION = "item_description";
     static final String C_CREATED_DATE = "created_date";
     static final String C_FLAG = "false";
@@ -31,7 +34,7 @@ public class DBManager extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase database)
     {
-        String sql1 = "create table " + TITLE_TABLE_NAME + " (" + C_TITLE_ID + " int primary key, " + C_TITLE_DESCRIPTION + " text)";
+        String sql1 = "create table " + TITLE_TABLE_NAME + " (" + C_TITLE_ID + " int primary key autoincrement, " + C_TITLE_DESCRIPTION + " text)";
         Log.d(TAG, "sql = " + sql1);
         database.execSQL(sql1);
 
@@ -47,6 +50,26 @@ public class DBManager extends SQLiteOpenHelper
         database.execSQL("drop table if exists " + ITEM_TABLE_NAME);
         Log.d(TAG, "in onUpgraded");
         onCreate(database);
+    }
+
+    public void updateItem(String item)
+    {
+        String itemID = getItemID(item);
+        ContentValues values = new ContentValues();
+        values.put(DBManager.C_ITEM_DESCRIPTION, item);
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.update(DBManager.ITEM_TABLE_NAME, values, DBManager.C_ITEM_ID + "=" + itemID, null);
+        database.close();
+    }
+
+    public void deleteItem(String item)
+    {
+        String itemID = getItemID(item);
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.delete(DBManager.ITEM_TABLE_NAME, DBManager.C_ITEM_ID + "=" + itemID, null);
+        database.close();
     }
 
     public void insertListTitle(String title)
@@ -105,6 +128,17 @@ public class DBManager extends SQLiteOpenHelper
         db.close();
 
         return titleID.toString();
+    }
+
+    public String getItemID(String item)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String whereClause = DBManager.C_ITEM_DESCRIPTION + "=" + (item);
+        Cursor itemID = db.query(DBManager.ITEM_TABLE_NAME, null, whereClause, null, null, null, null);
+        db.close();
+
+        return itemID.toString();
     }
 
     public List<String> getItems(String title)
