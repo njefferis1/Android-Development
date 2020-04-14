@@ -6,12 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.autofill.AutofillValue;
@@ -33,13 +36,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener
 {
     static final String TAG = "MainActivity";
 
     DBManager dbManager;
     SQLiteDatabase database;
     Cursor cursor;
+    List<String> items = new ArrayList();
+    ArrayList<HashMap<String, String>> todoItem = new ArrayList<>();
+    public static final String ITEM_ID = "ItemId";
+    public static final String ITEM = "Item";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,48 +59,79 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ArrayList<String> spinnerArray = new ArrayList<String>();
         populateSpinner();
         Spinner spinner = findViewById(R.id.spinner_list_title);
-        spinner.setOnItemSelectedListener(new SpinnerListener());
-
+        spinner.setOnItemSelectedListener(new SpinnerListener(this));
 
         Button saveListNameButton = findViewById(R.id.button_save_list_title);
-
         saveListNameButton.setOnClickListener(this);
 
-        //populate textbox after a item is selected from listview
+        Button saveListItemButton = findViewById(R.id.button_save_list_item);
+        saveListItemButton.setOnClickListener(this);
+
+        Button updateListItemButton = findViewById(R.id.button_item_update);
+        updateListItemButton.setOnClickListener(this);
+
+        Button deleteListItemButton = findViewById(R.id.button_item_delete);
+        deleteListItemButton.setOnClickListener(this);
+
         ListView listView = findViewById(R.id.list_view_items);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, android.R.id.text1, (List<String>) listView);
+        listView.setOnItemClickListener(this);
 
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        if(spinner.getSelectedItem() != null)
         {
-            DBManager db = new DBManager(getApplicationContext());
-            SQLiteDatabase database = db.getReadableDatabase();
+            populateList(spinner.getSelectedItem().toString());
+        }
 
-            Spinner spinner = findViewById(R.id.spinner_list_title);
-            String titleID = db.getTitleID(spinner.getSelectedItem().toString());
+    }
 
-            String whereClause = DBManager.C_TITLE_ID + "=" + (titleID);
-            Cursor cursor = database.query(DBManager.ITEM_TABLE_NAME, null, whereClause, null, null, null, null);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflator = this.getMenuInflater();
+        inflator.inflate(R.menu.main_menu, menu);
 
-            List<String> items = new ArrayList();
+        return true;
+    }
 
-            if(cursor.moveToNext())
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case(R.id.menu_item_preferences):
             {
-                do
-                {
-                    items.add(cursor.getString(2));
-                } while (cursor.moveToNext());
+                Intent intent = new Intent(this, SettingsActivity.class);
+                this.startActivity(intent);
+                break;
             }
-            cursor.close();
-            database.close();
+        }
+        return true;
+    }
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                EditText et = findViewById(R.id.et_list_edit_item);
-                et.setText(items.get(position)); //set text to selected item from list view
+    private class SpinnerListener implements AdapterView.OnItemSelectedListener
+    {
+        MainActivity activity;
+
+        public SpinnerListener(MainActivity context)
+        {
+            activity = (MainActivity)context;
+        }
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int index, long id)
+        {
+            Spinner listTitle = findViewById(R.id.spinner_list_title);
+            if (listTitle.getSelectedItem() != null)
+            {
+                String title = listTitle.getSelectedItem().toString();
+                populateList(title);
             }
-        });
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -124,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.button_save_list_item:
             {
-                EditText listItemTB = findViewById(R.id.et_list_title);
+                EditText listItemTB = findViewById(R.id.et_list_item);
                 String listItem = listItemTB.getText().toString();
                 Spinner listTitle = findViewById(R.id.spinner_list_title);
                 String title = listTitle.getSelectedItem().toString();
@@ -135,12 +174,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     DBManager db = new DBManager(getApplicationContext());
                     db.insertListItem(listItem, title, now, "false");
                     listItemTB.setText("");
+                    populateList(title);
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(listItemTB.getWindowToken(), 0);
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "Please enter or select List Item",
+                    Toast.makeText(getApplicationContext(), "Please enter a List Item",
                             Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -149,16 +189,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 EditText selectedItemTB = findViewById(R.id.et_list_edit_item);
                 String selectedItem = selectedItemTB.getText().toString();
+                Spinner listTitle = findViewById(R.id.spinner_list_title);
+                String title = listTitle.getSelectedItem().toString();
 
                 if(selectedItem.trim().length() > 0)
                 {
                     DBManager db = new DBManager(getApplicationContext());
                     db.updateItem(selectedItem);
                     selectedItemTB.setText("");
+                    populateList(title);
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "Please enter List Item",
+                    Toast.makeText(getApplicationContext(), "Please select a List Item",
                             Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -167,12 +210,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 EditText selectedItemTB = findViewById(R.id.et_list_edit_item);
                 String selectedItem = selectedItemTB.getText().toString();
+                Spinner listTitle = findViewById(R.id.spinner_list_title);
+                String title = listTitle.getSelectedItem().toString();
 
                 if(selectedItem.trim().length() > 0)
                 {
                     DBManager db = new DBManager(getApplicationContext());
                     db.deleteItem(selectedItem);
                     selectedItemTB.setText("");
+                    populateList(title);
                 }
                 else
                 {
@@ -204,5 +250,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
+        EditText et = findViewById(R.id.et_list_edit_item);
+        et.setText(items.get(position)); //set text to selected item from list view
+    }
+
+    private void populateList(String selection)
+    {
+        items.clear();
+
+        String titleID; //= db.getTitleID(spinner.getSelectedItem().toString());
+        Spinner spinner = findViewById(R.id.spinner_list_title);
+        ListView listView = findViewById(R.id.list_view_items);
+        DBManager db = new DBManager(getApplicationContext());
+        database = db.getReadableDatabase();
+
+        if(spinner.getSelectedItem() != null)
+        {
+            titleID = db.getTitleID(spinner.getSelectedItem().toString());
+
+
+            String whereClause = DBManager.C_TITLE_ID + "=" + "'" + titleID + "'";
+            Cursor cursor = database.query(DBManager.ITEM_TABLE_NAME, null, whereClause, null, null, null, null);
+
+            if(cursor.moveToNext())
+            {
+                do
+                {
+                    items.add(cursor.getString(2));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            //database.close();
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2, android.R.id.text1, items);
+
+            listView.setAdapter(adapter);
+        }
+
+//        try
+//        {
+//            DBManager db = new DBManager(getApplicationContext());
+//            //List<String> items = new ArrayList<String>();
+//
+//            database = db.getReadableDatabase();
+//
+//            String titleID = db.getTitleID(selection);
+//
+//            String whereClause = DBManager.C_TITLE_ID + "=" + (titleID);
+//            Cursor cursor = database.query(DBManager.ITEM_TABLE_NAME, null, whereClause, null, null, null, null);
+//
+//            if(cursor.moveToFirst())
+//            {
+//                do
+//                {
+//                    HashMap<String, String> tempMap = new HashMap<String, String>();
+//
+//                    tempMap.put(ITEM_ID, cursor.getString(0));
+//                    tempMap.put(ITEM, cursor.getString(2));
+//
+//                    todoItem.add(tempMap);
+//                } while (cursor.moveToNext());
+//            }
+//            cursor.close();
+//            database.close();
+//        }
+//        catch (Exception e)
+//        {
+//            Toast.makeText(this, "Error: " + e, Toast.LENGTH_LONG).show();
+//        }
+    }
 
 }

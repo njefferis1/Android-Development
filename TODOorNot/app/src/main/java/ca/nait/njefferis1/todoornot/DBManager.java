@@ -17,14 +17,14 @@ public class DBManager extends SQLiteOpenHelper
 
     static final String TAG = "DBManager";
     static final String DB_NAME = "todo.db";
-    static final int DB_VERSION = 4;
+    static final int DB_VERSION = 7;
 
     static final String TITLE_TABLE_NAME = "ListTitles";
     static final String C_TITLE_ID = BaseColumns._ID;
     static final String C_TITLE_DESCRIPTION = "title_description";
 
     static final String ITEM_TABLE_NAME = "ListItems";
-    static final String C_ITEM_ID = "group_id";
+    static final String C_ITEM_ID = "item_id";
     static final String C_ITEM_DESCRIPTION = "item_description";
     static final String C_CREATED_DATE = "created_date";
     static final String C_FLAG = "false";
@@ -34,11 +34,14 @@ public class DBManager extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase database)
     {
-        String sql1 = "create table " + TITLE_TABLE_NAME + " (" + C_TITLE_ID + " int primary key autoincrement, " + C_TITLE_DESCRIPTION + " text)";
+        //String sql1 = "create table " + TITLE_TABLE_NAME + " (" + C_TITLE_ID + " int primary key autoincrement, " + C_TITLE_DESCRIPTION + " text)";
+        String sql1 = String.format("create table %s (%s integer primary key autoincrement, %s text) ", TITLE_TABLE_NAME, C_TITLE_ID, C_TITLE_DESCRIPTION);
         Log.d(TAG, "sql = " + sql1);
         database.execSQL(sql1);
 
-        String sql2 = " create table " + ITEM_TABLE_NAME + " (" + C_ITEM_ID + " int primary key autoincrement, " + C_TITLE_ID + " int, " + C_ITEM_DESCRIPTION + " text, " + C_CREATED_DATE + " text, " + C_FLAG + " boolean)";
+        //String sql2 = " create table " + ITEM_TABLE_NAME + " (" + C_ITEM_ID + " int primary key autoincrement, " + C_TITLE_ID + " int, " + C_ITEM_DESCRIPTION + " text, " + C_CREATED_DATE + " text, " + C_FLAG + " boolean)";
+        String sql2 = String.format("create table %s (%s integer primary key autoincrement, %s integer, %s text, %s text, %s text)",
+                        ITEM_TABLE_NAME, C_ITEM_ID, C_TITLE_ID, C_ITEM_DESCRIPTION, C_CREATED_DATE, C_FLAG);
         Log.d(TAG, "sql = " + sql2);
         database.execSQL(sql2);
     }
@@ -59,7 +62,7 @@ public class DBManager extends SQLiteOpenHelper
         values.put(DBManager.C_ITEM_DESCRIPTION, item);
 
         SQLiteDatabase database = this.getWritableDatabase();
-        database.update(DBManager.ITEM_TABLE_NAME, values, DBManager.C_ITEM_ID + "=" + itemID, null);
+        database.update(DBManager.ITEM_TABLE_NAME, values, DBManager.C_ITEM_ID + "=" + "'" + itemID + "'", null);
         database.close();
     }
 
@@ -79,7 +82,7 @@ public class DBManager extends SQLiteOpenHelper
         ContentValues values = new ContentValues();
         values.put(C_TITLE_DESCRIPTION, title);
 
-        db.insert(TITLE_TABLE_NAME, null, values);
+        db.insertOrThrow(TITLE_TABLE_NAME, null, values);
         db.close();
     }
 
@@ -93,7 +96,7 @@ public class DBManager extends SQLiteOpenHelper
         values.put(C_CREATED_DATE, date);
         values.put(C_FLAG, completed);
 
-        db.insert(TITLE_TABLE_NAME, null, values);
+        db.insertOrThrow(ITEM_TABLE_NAME, null, values);
         db.close();
     }
 
@@ -122,23 +125,40 @@ public class DBManager extends SQLiteOpenHelper
     public String getTitleID(String title)
     {
         SQLiteDatabase db = this.getReadableDatabase();
+        String titleID = "";
 
-        String whereClause = DBManager.C_TITLE_DESCRIPTION + "=" + (title);
-        Cursor titleID = db.query(DBManager.TITLE_TABLE_NAME, null, whereClause, null, null, null, null);
-        db.close();
+        String whereClause = DBManager.C_TITLE_DESCRIPTION + "=" + "'" + title + "'";
+        Cursor cursor = db.query(DBManager.TITLE_TABLE_NAME, null, whereClause, null, null, null, null);
+        //Cursor titleID = db.rawQuery("Select " + DBManager.C_TITLE_ID + " from " + DBManager.TITLE_TABLE_NAME + " where " + whereClause, null);
 
-        return titleID.toString();
+        while(cursor.moveToNext())
+        {
+            titleID = cursor.getString(0);
+        }
+
+
+        //db.close();
+        cursor.close();
+
+        return titleID;
     }
 
     public String getItemID(String item)
     {
         SQLiteDatabase db = this.getReadableDatabase();
+        String itemID = "";
 
-        String whereClause = DBManager.C_ITEM_DESCRIPTION + "=" + (item);
-        Cursor itemID = db.query(DBManager.ITEM_TABLE_NAME, null, whereClause, null, null, null, null);
-        db.close();
+        String whereClause = DBManager.C_ITEM_DESCRIPTION + "=" + "'" + item + "'";
+        Cursor cursor = db.query(DBManager.ITEM_TABLE_NAME, null, whereClause, null, null, null, null);
 
-        return itemID.toString();
+        while(cursor.moveToNext())
+        {
+            itemID = cursor.getString(0);
+        }
+
+        //db.close();
+
+        return itemID;
     }
 
     public List<String> getItems(String title)
